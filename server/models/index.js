@@ -29,8 +29,8 @@ fs.readdirSync(__dirname)
       file.indexOf(".test.js") === -1
     );
   })
-  .forEach((file) => {
-    const modelImport = import(path.join(__dirname, file));
+  .forEach(async (file) => {
+    const modelImport = await import(path.join(__dirname, file));
     const model = modelImport.default(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
