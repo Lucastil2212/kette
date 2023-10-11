@@ -1,26 +1,32 @@
 export default (sequelize, DataTypes) => {
-  const BaseWords = sequelize.define("BaseWords", {
-    base_word_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    word_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Words",
-        key: "word_id",
+  const basewords = sequelize.define(
+    "basewords",
+    {
+      base_word_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
+      word_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "words",
+          key: "word_id",
+        },
+      },
+      base_word: DataTypes.STRING,
+      literal_meaning: DataTypes.STRING,
     },
-    base_word: DataTypes.STRING,
-    literal_meaning: DataTypes.STRING,
-  });
+    {
+      timestamps: false,
+    }
+  );
 
-  BaseWords.associate = (models) => {
-    BaseWords.belongsTo(models.Words, {
+  basewords.associate = (models) => {
+    basewords.belongsTo(models.words, {
       foreignKey: "word_id",
     });
   };
 
-  return BaseWords;
+  return basewords;
 };

@@ -1,36 +1,42 @@
 export default (sequelize, DataTypes) => {
-  const Words = sequelize.define("Words", {
-    word_id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    word: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    category_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Categories",
-        key: "category_id",
+  const words = sequelize.define(
+    "words",
+    {
+      word_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
+      word: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      category_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "categories",
+          key: "category_id",
+        },
+      },
+      definition: DataTypes.TEXT,
+      literal_definition: DataTypes.TEXT,
+      usage_notes: DataTypes.TEXT,
+      example_sentence: DataTypes.TEXT,
     },
-    definition: DataTypes.TEXT,
-    literal_definition: DataTypes.TEXT,
-    usage_notes: DataTypes.TEXT,
-    example_sentence: DataTypes.TEXT,
-  });
+    {
+      timestamps: false,
+    }
+  );
 
-  Words.associate = (models) => {
-    Words.belongsTo(models.Categories, {
+  words.associate = (models) => {
+    words.belongsTo(models.categories, {
       foreignKey: "category_id",
     });
-    Words.hasMany(models.BaseWords, {
+    words.hasMany(models.basewords, {
       foreignKey: "word_id",
     });
   };
 
-  return Words;
+  return words;
 };
